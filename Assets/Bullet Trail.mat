@@ -57,7 +57,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 8.47419, g: 5.324098, b: 0, a: 1}
+    - _Color: {r: 0.6577637, g: 0.2544458, b: 0.0031026665, a: 1}
     - _Emission: {r: 1, g: 1, b: 1, a: 0}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

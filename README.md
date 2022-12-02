@@ -1,2 +1,2 @@
 # Scribs
-sus
+Currently a game I am working on

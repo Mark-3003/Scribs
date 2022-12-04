@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [Header("Wave Settings")]
+    public int wave;
+    public int maxWave;
+    public WaveEnemies[] waveEnems;
+    public float spawnOffset;
+    [Header("Settings")]
     public int charge;
     public TextMesh text;
     public float health;
@@ -18,8 +24,12 @@ public class Tower : MonoBehaviour
     public List<float> timers = new List<float>();
 
     public float chargeTime;
+    public Vector2 topLeftCorner;
+    public Vector2 bottomRightCorner;
     private void Update()
     {
+        GetCameraCorners();
+
         if (activatable)
             if (Input.GetKeyDown(KeyCode.E))
                 Activate();
@@ -67,10 +77,36 @@ public class Tower : MonoBehaviour
     {
         if (col.tag == "Player")
             activatable = false;
-        else if(col.tag == "Enemy")
+        else if (col.tag == "Enemy")
         {
             timers.RemoveAt(enemies.IndexOf(col.GetComponent<Enemy>()));
             enemies.Remove(col.GetComponent<Enemy>());
         }
     }
+    [System.Serializable]
+    public struct WaveEnemies{
+        public int dogos;
+        public int guys;
+        public int _3;
+    }
+    void GetCameraCorners()
+    {
+        topLeftCorner = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
+        bottomRightCorner = -topLeftCorner;
+    }
+    void SpawnInEnemy(GameObject _enemy)
+    {
+        float _deltaX = topLeftCorner.x - transform.position.x;
+        float _dir = _deltaX / Mathf.Abs(_deltaX);
+
+        if(_dir == -1)
+        {
+            Instantiate(_enemy, new Vector2(topLeftCorner.x - spawnOffset, 0), Quaternion.Euler(0, 0, 0));
+        }
+        if (_dir == 1)
+        {
+            Instantiate(_enemy, new Vector2(topLeftCorner.x + spawnOffset, 0), Quaternion.Euler(0, 0, 0));
+        }
+    }
+
 }

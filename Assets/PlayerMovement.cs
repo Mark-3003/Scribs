@@ -124,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
         if(type == 2)
         {
             Vector2 lookDir = mousePos - rb.position;
-            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg -90f;
+            float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
             hitPivot.rotation = Quaternion.Euler(0, 0, angle);
         }
     }

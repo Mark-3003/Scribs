@@ -5628,11 +5628,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wave: 0
   maxWave: 0
+  dogo: {fileID: 4120286949342230182, guid: d0dd7bbbdd78fa94885abd6844f8451c, type: 3}
+  spawnADogo: 0
   waveEnems:
   - dogos: 3
     guys: 0
     _3: 0
-  spawnOffset: 0
+  spawnOffset: 7
+  ground:
+    serializedVersion: 2
+    m_Bits: 0
   charge: 0
   text: {fileID: 1838255750}
   health: 100

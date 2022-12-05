@@ -7,8 +7,11 @@ public class Tower : MonoBehaviour
     [Header("Wave Settings")]
     public int wave;
     public int maxWave;
+    public GameObject dogo;
+    public bool spawnADogo;
     public WaveEnemies[] waveEnems;
     public float spawnOffset;
+    public LayerMask ground;
     [Header("Settings")]
     public int charge;
     public TextMesh text;
@@ -29,6 +32,12 @@ public class Tower : MonoBehaviour
     private void Update()
     {
         GetCameraCorners();
+
+        if (spawnADogo)
+        {
+            spawnADogo = false;
+            SpawnInEnemy(dogo);
+        }
 
         if (activatable)
             if (Input.GetKeyDown(KeyCode.E))
@@ -92,20 +101,36 @@ public class Tower : MonoBehaviour
     void GetCameraCorners()
     {
         topLeftCorner = Camera.main.ScreenToWorldPoint(new Vector2(0, 0));
-        bottomRightCorner = -topLeftCorner;
+        bottomRightCorner = Camera.main.ScreenToWorldPoint(new Vector2(Camera.main.pixelWidth, Camera.main.pixelHeight));
     }
     void SpawnInEnemy(GameObject _enemy)
     {
+        RaycastHit2D hit = new RaycastHit2D();
+
         float _deltaX = topLeftCorner.x - transform.position.x;
         float _dir = _deltaX / Mathf.Abs(_deltaX);
 
         if(_dir == -1)
         {
-            Instantiate(_enemy, new Vector2(topLeftCorner.x - spawnOffset, 0), Quaternion.Euler(0, 0, 0));
+            hit = Physics2D.Raycast(new Vector2(topLeftCorner.x - spawnOffset, 0), transform.up, Mathf.Infinity, ground);
+            if(hit.collider == null)
+            {
+                hit = Physics2D.Raycast(new Vector2(topLeftCorner.x - spawnOffset, 0), -transform.up, Mathf.Infinity, ground);
+            }
+
+            GameObject _enem = Instantiate(_enemy, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+            _enem.transform.position = hit.point + new Vector2(0, _enem.GetComponent<BoxCollider>().size.y / 2);
         }
         if (_dir == 1)
         {
-            Instantiate(_enemy, new Vector2(topLeftCorner.x + spawnOffset, 0), Quaternion.Euler(0, 0, 0));
+            hit = Physics2D.Raycast(new Vector2(bottomRightCorner.x + spawnOffset, 0), transform.up, Mathf.Infinity, ground);
+            if (hit.collider == null)
+            {
+                hit = Physics2D.Raycast(new Vector2(topLeftCorner.x - spawnOffset, 0), -transform.up, Mathf.Infinity, ground);
+            }
+
+            GameObject _enem = Instantiate(_enemy, new Vector2(0, 0), Quaternion.Euler(0, 0, 0));
+            _enem.transform.position = hit.point + new Vector2(0, _enem.GetComponent<BoxCollider>().size.y / 2);
         }
     }
 

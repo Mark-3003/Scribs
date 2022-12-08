@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour
             Death();
         }
     }
-    void Death()
+    public void Death()
     {
         Destroy(gameObject);
     }

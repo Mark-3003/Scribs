@@ -14,6 +14,8 @@ public class EnemyAI : MonoBehaviour
     public LayerMask ground;
     public Transform target;
     public Transform feet;
+    public Transform leftCollider;
+    public Transform rightCollider;
 
     public float distanceLimiter;
     public Vector2 delta;
@@ -24,6 +26,7 @@ public class EnemyAI : MonoBehaviour
     public Vector2 snapVector;
     public float movementVector;
     public float speedUp;
+    public float collisionSide;
 
     private void Awake()
     {
@@ -31,7 +34,19 @@ public class EnemyAI : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        // Check if touching ground
         grounded = Physics2D.OverlapCircle(feet.position, 0.1f, ground);
+
+        // Find what wall AI is touching
+        if(Physics2D.OverlapCircle(leftCollider.position, 0.1f, ground)){
+            collisionSide = -1;
+        }
+        else if(Physics2D.OverlapCircle(rightCollider.position, 0.1f, ground)){
+            collisionSide = 1;
+        }
+        else{
+            collisionSide = 0;
+        }
 
         // Delta.x = Distance on x axis
         delta = target.position - transform.position;
@@ -57,11 +72,35 @@ public class EnemyAI : MonoBehaviour
                     snapVector = new Vector2(0, -(hit.distance - collider.size.x / 2 + snapOffset));
         }
 
-        if (delta.x > distanceLimiter || delta.x < -distanceLimiter) // d > 4 OR d < -4
+        if ((delta.x > distanceLimiter || delta.x < -distanceLimiter) && collisionSide == 0) // d > 4 OR d < -4
         {
             speedUp = Mathf.Lerp(speedUp, speed, Time.fixedDeltaTime * 2);
             movementVector = delta.x / absoluteX;
             movement = new Vector2(movementVector * speedUp, 0);
+        }
+        else if(collisionSide == -1)
+        {
+            RaycastHit2D hit = new RaycastHit2D();
+
+            hit = Physics2D.Raycast(leftCollider.position, -transform.right, 1f, ground);
+
+            Vector2 _newPos = hit.point + new Vector2(collider.size.x / 2, 0) - collider.offset;
+            movement = Vector2.zero;
+            speedUp = 0;
+
+            rb.position = _newPos;
+        }
+        else if(collisionSide == 1)
+        {
+            RaycastHit2D hit = new RaycastHit2D();
+
+            hit = Physics2D.Raycast(rightCollider.position, transform.right, 1f, ground);
+
+            Vector2 _newPos = hit.point - new Vector2(collider.size.x / 2, 0) + collider.offset;
+            movement = Vector2.zero;
+            speedUp = 0;
+
+            rb.position = _newPos;
         }
         else
         {

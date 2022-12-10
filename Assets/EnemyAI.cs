@@ -64,43 +64,41 @@ public class EnemyAI : MonoBehaviour
 
             // Finds distance from AI centre to ground
             RaycastHit2D hit = new RaycastHit2D();
-            hit = Physics2D.Raycast(transform.position, -transform.up, Mathf.Infinity, ground);
+            hit = Physics2D.Raycast(feet.position, -transform.up, 1f, ground);
 
-            // If AI close to floor, snap it to floor
-            if (hit.collider != null)
-                if (hit.distance <= collider.size.y / 2 + 0.01f)
-                    snapVector = new Vector2(0, -(hit.distance - collider.size.x / 2 + snapOffset));
+            // If in ground shoot a ray up
+            if (hit.collider == null)
+            {
+                hit = Physics2D.Raycast(feet.position, transform.up, Mathf.Infinity, ground);
+            }
+
+            float _rayDelta = (hit.point.y - feet.position.y) / (Mathf.Abs(hit.point.y - feet.position.y));
+            Debug.Log("RAY DELTA: " + _rayDelta + ". Hit distance: " + hit.distance);
+
+            if (_rayDelta == -1)
+            {
+                snapVector = new Vector2(0, -(hit.distance + snapOffset));
+                Debug.Log("Snap Vector: " + snapVector);
+            }
+            else if(_rayDelta == 1)
+            {
+                snapVector = new Vector2(0, (hit.distance + snapOffset));
+                Debug.Log("Snap Vector: " + snapVector);
+            }
+            else
+            {
+                snapVector = Vector2.zero;
+            }
+
+            // DEBUG
+            Debug.DrawLine(feet.position, hit.point, Color.yellow);
         }
-
+        
         if ((delta.x > distanceLimiter || delta.x < -distanceLimiter) && collisionSide == 0) // d > 4 OR d < -4
         {
             speedUp = Mathf.Lerp(speedUp, speed, Time.fixedDeltaTime * 2);
             movementVector = delta.x / absoluteX;
             movement = new Vector2(movementVector * speedUp, 0);
-        }
-        else if(collisionSide == -1)
-        {
-            RaycastHit2D hit = new RaycastHit2D();
-
-            hit = Physics2D.Raycast(leftCollider.position, -transform.right, 1f, ground);
-
-            Vector2 _newPos = hit.point + new Vector2(collider.size.x / 2, 0) - collider.offset;
-            movement = Vector2.zero;
-            speedUp = 0;
-
-            rb.position = _newPos;
-        }
-        else if(collisionSide == 1)
-        {
-            RaycastHit2D hit = new RaycastHit2D();
-
-            hit = Physics2D.Raycast(rightCollider.position, transform.right, 1f, ground);
-
-            Vector2 _newPos = hit.point - new Vector2(collider.size.x / 2, 0) + collider.offset;
-            movement = Vector2.zero;
-            speedUp = 0;
-
-            rb.position = _newPos;
         }
         else
         {
@@ -108,7 +106,8 @@ public class EnemyAI : MonoBehaviour
             movement = new Vector2(movementVector * speedUp, 0);
         }
 
-        rb.MovePosition(rb.position += (movement + velocity + snapVector) * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position += (movement) * Time.fixedDeltaTime);
+        rb.position += ((velocity * Time.deltaTime) + snapVector);
     }
     private void Update()
     {

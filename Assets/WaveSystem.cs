@@ -47,7 +47,6 @@ public class WaveSystem : MonoBehaviour
         for(int i = 0; i < activeWave.dogos; i++)
         {
             int _ran = Random.Range(0, 2);
-            Debug.Log("_ran: " + _ran);
             if(_ran == 0){
                 spawnPoint = leftSide;
             }
@@ -78,7 +77,6 @@ public class WaveSystem : MonoBehaviour
         int _ran = Random.Range(0, 1);
         float _delta = player.position.x - transform.position.x;
         float _dir = Mathf.Abs(_delta) / _delta;
-        Debug.Log("_delta " + _dir);
 
         _calPos = new Vector2(-spawnOffset + transform.position.x, transform.position.y);
 
@@ -88,7 +86,6 @@ public class WaveSystem : MonoBehaviour
         {
             hit = Physics2D.Raycast(_calPos, -transform.up, ground);
         }
-        Debug.Log("hit point: " + hit.point + ". _dir: " + _dir);
         Debug.DrawLine(_calPos, hit.point, Color.yellow);
         leftSide.position = new Vector2(hit.point.x, hit.point.y + dogo.GetComponent<BoxCollider2D>().size.y + leftOffset);
 

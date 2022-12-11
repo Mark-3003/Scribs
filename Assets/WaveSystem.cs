@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class WaveSystem : MonoBehaviour
 {
@@ -13,6 +15,10 @@ public class WaveSystem : MonoBehaviour
     public float leftOffset;
     public float rightOffset;
     public LayerMask ground;
+
+    [Header("Text")]
+    public TMP_Text waveText;
+    public Slider waveSlider;
 
     [Header("Enemies")]
     public GameObject dogo;
@@ -27,6 +33,7 @@ public class WaveSystem : MonoBehaviour
     public WaveEnemies activeWave;
     public float timer;
     public Transform spawnPoint;
+    public bool enemiescanspawn;
     private void Awake()
     {
         player = GameObject.Find("Player").transform;
@@ -53,19 +60,25 @@ public class WaveSystem : MonoBehaviour
             else{
                 spawnPoint = rightSide;
             }
-            Instantiate(dogo, spawnPoint.position, Quaternion.Euler(0, 0, 0));
+            if (enemiescanspawn)
+            {
+                Enemy _enem = Instantiate(dogo, spawnPoint.position, Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
+            }
         }
     }
     public void NextWave()
     {
         activeWave = waveEnems[wave];
         wave += 1;
+        waveText.text = "Wave: " + wave;
     }
     public void ActivateScript()
     {
         active = true;
         activeWave = waveEnems[0];
         wave = 1;
+        waveText.enabled = true;
+        waveText.text = "Wave: " + wave;
         ResetEnemySpawns();
         SpawnInEnemy();
     }
@@ -100,6 +113,14 @@ public class WaveSystem : MonoBehaviour
         Debug.Log("hit point: " + hit.point + ". _dir: " + _dir);
         Debug.DrawLine(_calPos, hit.point, Color.yellow);
         rightSide.position = new Vector2(hit.point.x, hit.point.y + dogo.GetComponent<BoxCollider2D>().size.y + rightOffset);
+    }
+    public void SetSlider(float _charge)
+    {
+        waveSlider.value = _charge;
+    }
+    public void ToggleEnemies()
+    {
+        enemiescanspawn = !enemiescanspawn;
     }
 }
 [System.Serializable]

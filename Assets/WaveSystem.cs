@@ -63,6 +63,11 @@ public class WaveSystem : MonoBehaviour
             if (enemiescanspawn)
             {
                 Enemy _enem = Instantiate(dogo, spawnPoint.position, Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
+
+                RaycastHit2D hit = new RaycastHit2D();
+                hit = Physics2D.Raycast(spawnPoint.position, -transform.up, Mathf.Infinity, ground);
+
+                _enem.gameObject.transform.up = hit.normal;
             }
         }
     }
@@ -93,22 +98,22 @@ public class WaveSystem : MonoBehaviour
 
         _calPos = new Vector2(-spawnOffset + transform.position.x, transform.position.y);
 
-        hit = Physics2D.Raycast(_calPos, transform.up, ground);
+        hit = Physics2D.Raycast(_calPos, transform.up, Mathf.Infinity, ground);
 
         if (hit.collider == null)
         {
-            hit = Physics2D.Raycast(_calPos, -transform.up, ground);
+            hit = Physics2D.Raycast(_calPos, -transform.up, Mathf.Infinity, ground);
         }
         Debug.DrawLine(_calPos, hit.point, Color.yellow);
         leftSide.position = new Vector2(hit.point.x, hit.point.y + dogo.GetComponent<BoxCollider2D>().size.y + leftOffset);
 
         _calPos = new Vector2(spawnOffset + transform.position.x, transform.position.y);
 
-        hit = Physics2D.Raycast(_calPos, transform.up, ground);
+        hit = Physics2D.Raycast(_calPos, transform.up, Mathf.Infinity, ground);
 
         if (hit.collider == null)
         {
-            hit = Physics2D.Raycast(_calPos, -transform.up, ground);
+            hit = Physics2D.Raycast(_calPos, -transform.up, Mathf.Infinity, ground);
         }
         Debug.Log("hit point: " + hit.point + ". _dir: " + _dir);
         Debug.DrawLine(_calPos, hit.point, Color.yellow);

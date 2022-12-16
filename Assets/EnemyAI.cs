@@ -60,38 +60,7 @@ public class EnemyAI : MonoBehaviour
         if (grounded && velocity.y < 0)
         {
             // If grounded remove fall velocity
-            velocity.y = 0f;
-
-            // Finds distance from AI centre to ground
-            RaycastHit2D hit = new RaycastHit2D();
-            hit = Physics2D.Raycast(feet.position, -transform.up, 1f, ground);
-
-            // If in ground shoot a ray up
-            if (hit.collider == null)
-            {
-                hit = Physics2D.Raycast(feet.position, transform.up, Mathf.Infinity, ground);
-            }
-
-            float _rayDelta = (hit.point.y - feet.position.y) / (Mathf.Abs(hit.point.y - feet.position.y));
-            Debug.Log("RAY DELTA: " + _rayDelta + ". Hit distance: " + hit.distance);
-
-            if (_rayDelta == -1)
-            {
-                snapVector = new Vector2(0, -(hit.distance + snapOffset));
-                Debug.Log("Snap Vector: " + snapVector);
-            }
-            else if(_rayDelta == 1)
-            {
-                snapVector = new Vector2(0, (hit.distance + snapOffset));
-                Debug.Log("Snap Vector: " + snapVector);
-            }
-            else
-            {
-                snapVector = Vector2.zero;
-            }
-
-            // DEBUG
-            Debug.DrawLine(feet.position, hit.point, Color.yellow);
+            velocity.y = 0f;           
         }
         
         if ((delta.x > distanceLimiter || delta.x < -distanceLimiter) && collisionSide == 0) // d > 4 OR d < -4
@@ -119,5 +88,38 @@ public class EnemyAI : MonoBehaviour
         {
             sp.flipX = true;
         }
+    }
+    void WTF()
+    {
+        // Finds distance from AI centre to ground
+        RaycastHit2D hit = new RaycastHit2D();
+        hit = Physics2D.Raycast(feet.position, -transform.up, 1f, ground);
+
+        // If in ground shoot a ray up
+        if (hit.collider == null)
+        {
+            hit = Physics2D.Raycast(feet.position, transform.up, Mathf.Infinity, ground);
+        }
+
+        float _rayDelta = (hit.point.y - feet.position.y) / (Mathf.Abs(hit.point.y - feet.position.y));
+        Debug.Log("RAY DELTA: " + _rayDelta + ". Hit distance: " + hit.distance);
+
+        if (_rayDelta == -1)
+        {
+            snapVector = new Vector2(0, -(hit.distance + snapOffset));
+            Debug.Log("Snap Vector: " + snapVector);
+        }
+        else if (_rayDelta == 1)
+        {
+            snapVector = new Vector2(0, (hit.distance + snapOffset));
+            Debug.Log("Snap Vector: " + snapVector);
+        }
+        else
+        {
+            snapVector = Vector2.zero;
+        }
+
+        // DEBUG
+        Debug.DrawLine(feet.position, hit.point, Color.yellow);
     }
 }

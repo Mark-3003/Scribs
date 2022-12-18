@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(Rigidbody2D))]
 
 public class EnemyAI : MonoBehaviour
 {
@@ -88,38 +87,5 @@ public class EnemyAI : MonoBehaviour
         {
             sp.flipX = true;
         }
-    }
-    void WTF()
-    {
-        // Finds distance from AI centre to ground
-        RaycastHit2D hit = new RaycastHit2D();
-        hit = Physics2D.Raycast(feet.position, -transform.up, 1f, ground);
-
-        // If in ground shoot a ray up
-        if (hit.collider == null)
-        {
-            hit = Physics2D.Raycast(feet.position, transform.up, Mathf.Infinity, ground);
-        }
-
-        float _rayDelta = (hit.point.y - feet.position.y) / (Mathf.Abs(hit.point.y - feet.position.y));
-        Debug.Log("RAY DELTA: " + _rayDelta + ". Hit distance: " + hit.distance);
-
-        if (_rayDelta == -1)
-        {
-            snapVector = new Vector2(0, -(hit.distance + snapOffset));
-            Debug.Log("Snap Vector: " + snapVector);
-        }
-        else if (_rayDelta == 1)
-        {
-            snapVector = new Vector2(0, (hit.distance + snapOffset));
-            Debug.Log("Snap Vector: " + snapVector);
-        }
-        else
-        {
-            snapVector = Vector2.zero;
-        }
-
-        // DEBUG
-        Debug.DrawLine(feet.position, hit.point, Color.yellow);
     }
 }

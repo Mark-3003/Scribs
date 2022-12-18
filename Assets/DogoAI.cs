@@ -48,6 +48,20 @@ public class DogoAI : MonoBehaviour
         // Adds gravity to velocity
         velocity.y += gravity * Time.fixedDeltaTime;
 
+        // Check if touching wall
+        if (Physics2D.OverlapCircle(leftCollider.position, 0.1f, ground))
+        {
+            collisionSide = -1;
+        }
+        else if (Physics2D.OverlapCircle(rightCollider.position, 0.1f, ground))
+        {
+            collisionSide = 1;
+        }
+        else
+        {
+            collisionSide = 0;
+        }
+
         // If grounded do stuff
         if (grounded && velocity.y < 0)
         {
@@ -91,7 +105,7 @@ public class DogoAI : MonoBehaviour
                 else if (movementVector == -1)
                     movement = -sp.transform.right * speedUp;
             }
-            rb.position += movement * Time.fixedDeltaTime;
+            transform.position = new Vector2(transform.position.x + movement.x * Time.fixedDeltaTime, transform.position.y + movement.y * Time.fixedDeltaTime);
         }
         rb.position += velocity * Time.fixedDeltaTime;
     }

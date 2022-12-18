@@ -29,10 +29,12 @@ public class DogoAI : MonoBehaviour
     public float yHeight;
 
     private RaycastHit2D hit;
+    private Transform lookTransform;
     private void Awake()
     {
         target = GameObject.Find("Tower").transform;
         yHeight = collider.size.y * ((Mathf.Abs(collider.offset.y) + 1));
+        lookTransform = new GameObject().transform;
     }
     void FixedUpdate()
     {
@@ -73,7 +75,10 @@ public class DogoAI : MonoBehaviour
 
             // Snaps AI to ground and sets sprite to slope direction
             transform.position = hit.point + new Vector2(0, yHeight) + snapVector;
-            sp.transform.up = lookVector;
+            lookTransform.up = lookVector;
+
+            // Rotate sprite to current normal
+            sp.transform.up = Vector2.Lerp(sp.transform.up, lookVector, Time.deltaTime * 10);
 
             // Get delta between target and enemy
             delta = target.position - transform.position;
@@ -88,12 +93,12 @@ public class DogoAI : MonoBehaviour
                 movementVector = delta.x / absoluteX;
                 if (movementVector == 1)
                 {
-                    movement = sp.transform.right * speedUp;
+                    movement = lookTransform.right * speedUp;
                     Debug.Log("moving right: " + movement);
                 }
                 else if (movementVector == -1)
                 {
-                    movement = -sp.transform.right * speedUp;
+                    movement = -lookTransform.right * speedUp;
                     Debug.Log("moving left: " + movement);
                 }
             }
@@ -101,9 +106,9 @@ public class DogoAI : MonoBehaviour
             {
                 speedUp = Mathf.Lerp(speedUp, 0, Time.fixedDeltaTime * 10);
                 if (movementVector == 1)
-                    movement = sp.transform.right * speedUp;
+                    movement = lookTransform.right * speedUp;
                 else if (movementVector == -1)
-                    movement = -sp.transform.right * speedUp;
+                    movement = -lookTransform.right * speedUp;
             }
             transform.position = new Vector2(transform.position.x + movement.x * Time.fixedDeltaTime, transform.position.y + movement.y * Time.fixedDeltaTime);
         }

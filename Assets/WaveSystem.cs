@@ -62,12 +62,7 @@ public class WaveSystem : MonoBehaviour
             }
             if (enemiescanspawn)
             {
-                Enemy _enem = Instantiate(dogo, spawnPoint.position, Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
-
-                RaycastHit2D hit = new RaycastHit2D();
-                hit = Physics2D.Raycast(spawnPoint.position, -transform.up, Mathf.Infinity, ground);
-
-                _enem.gameObject.transform.up = hit.normal;
+                Instantiate(dogo, spawnPoint.position, Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
             }
         }
     }

@@ -6538,7 +6538,7 @@ MonoBehaviour:
     _3: 0
     timerTime: 4
   spawnOffset: 20
-  leftOffset: 1.02
+  leftOffset: 0.15
   rightOffset: 0.15
   ground:
     serializedVersion: 2

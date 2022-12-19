@@ -9,8 +9,14 @@ public class DialogueTrigger : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Trigger") && inTrigger)
-            TriggerDialogue();
+        if (inTrigger)
+        {
+            // ADD POPUP (press E to talk)
+            if (Input.GetButtonDown("Trigger"))
+            {
+                TriggerDialogue();
+            }
+        }
     }
 
     public void TriggerDialogue()

@@ -13,6 +13,9 @@ public class DEBUGSCRIPT : MonoBehaviour
             StartCoroutine(LoadSceneAsync(0));
         else if (Input.GetKeyDown(KeyCode.Alpha1))
             StartCoroutine(LoadSceneAsync(1));
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
     }
     IEnumerator LoadSceneAsync(int id)
     {

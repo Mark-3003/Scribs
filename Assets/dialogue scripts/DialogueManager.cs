@@ -12,10 +12,12 @@ public class DialogueManager : MonoBehaviour
     public GameObject textBox;
 
     public Queue<string> sentences;
+    public Queue<Sprite> moods;
 
     void Start()
     {
         sentences = new Queue<string>();
+        moods = new Queue<Sprite>();
     }
     private void Update()
     {
@@ -30,12 +32,13 @@ public class DialogueManager : MonoBehaviour
         textBox.SetActive(true);
 
         nameText.text = dialogue.name;
-        image.sprite = dialogue.characterImg;
         sentences.Clear();
+        moods.Clear();
 
-        foreach(string sentence in dialogue.sentences)
+        for(int i = 0; i < dialogue.sentences.Length; i++)
         {
-            sentences.Enqueue(sentence);
+            sentences.Enqueue(dialogue.sentences[i].sentence);
+            moods.Enqueue(dialogue.sentences[i].mood);
         }
 
         DisplayNextSentence();
@@ -50,6 +53,7 @@ public class DialogueManager : MonoBehaviour
         }
 
         string sentence = sentences.Dequeue();
+        image.sprite = moods.Dequeue();
         StopAllCoroutines();
         StartCoroutine(TypeSentence(sentence));
     }

@@ -6,8 +6,13 @@ using UnityEngine;
 public class Dialogue : MonoBehaviour
 {
     public string name;
-    public Sprite characterImg;
 
-    [TextArea(3, 10)]
-    public string[] sentences;
+    public Sentences[] sentences;
+}
+[System.Serializable]
+public struct Sentences
+{
+    [TextArea(3,10)]
+    public string sentence;
+    public Sprite mood;
 }

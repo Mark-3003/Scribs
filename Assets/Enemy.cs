@@ -6,6 +6,8 @@ public class Enemy : MonoBehaviour
 {
     public GameObject player;
     public float health = 100;
+
+    public Transform lookVector;
     private void Awake()
     {
         player = GameObject.Find("Player");
@@ -22,12 +24,16 @@ public class Enemy : MonoBehaviour
     public void Death()
     {
         Destroy(gameObject);
+        Destroy(lookVector);
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if(col.tag == "ParticleBullets")
+        if(col.CompareTag("Bullet"))
         {
-            Debug.Log("Bullet hit " + gameObject.name);
+            GameObject _effect = Instantiate(col.GetComponent<Bullet>().effect, col.transform.position, col.transform.rotation);
+            Damage(col.GetComponent<Bullet>().damage);
+            Destroy(col.gameObject);
+            Destroy(_effect, 3f);
         }
     }
 }

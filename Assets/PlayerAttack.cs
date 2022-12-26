@@ -5,34 +5,25 @@ using UnityEngine;
 public class PlayerAttack : MonoBehaviour
 {
     public int type;
+    public GameObject bullet;
     public SpriteRenderer sp;
+    public Transform hitbox;
+    public Transform hitPivot;
     public float health = 100;
     public int attackDamage = 20;
-    public float attackCooldown = 0.2f;
+    public float attackWait = 0.05f;
 
     public float attackTimer;
     public List<Enemy> enemies = new List<Enemy>();
-    private void Update(){
+
+    private void Update()
+    {
+        attackTimer += Time.deltaTime;
+
         if (Input.GetButtonDown("Fire1"))
         {
             sp.enabled = true;
-            Attack();
-        }
-        if (Input.GetButtonUp("Fire1"))
-        {
-            sp.enabled = false;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            type = 1;
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            type = 2;
-        attackTimer += Time.deltaTime;
-    }
-    void Attack()
-    {
-        if(attackTimer >= attackCooldown)
-        {
-            attackTimer = 0;
+
             if (type == 1)
             {
                 for (int i = 0; i < enemies.Count; i++)
@@ -40,15 +31,24 @@ public class PlayerAttack : MonoBehaviour
                     enemies[i].Damage(attackDamage);
                 }
             }
-            else if(type == 2)
+        }
+        else if (Input.GetButton("Fire1"))
+        {
+            if (type == 2 && attackTimer > attackWait)
             {
-
-            }
-            else
-            {
-
+                attackTimer = 0;
+                Instantiate(bullet, hitbox.position, hitPivot.rotation);
             }
         }
+        else if (Input.GetButtonUp("Fire1"))
+        {
+            sp.enabled = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            type = 1;
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+            type = 2;
     }
     public void Hit(float damage)
     {

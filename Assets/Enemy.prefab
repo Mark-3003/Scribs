@@ -53,6 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   health: 100
+  lookVector: {fileID: 0}
 --- !u!114 &38829677048260478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,6 +66,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7a3974b25887249b50c896d115f5c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 38829677048260473}
   sp: {fileID: 8033708042660080219}
   rb: {fileID: 38829677048260417}
   collider: {fileID: 38829677048260416}

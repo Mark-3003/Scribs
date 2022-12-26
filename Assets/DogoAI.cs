@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DogoAI : MonoBehaviour
 {
+    public Enemy enemy;
     public SpriteRenderer sp;
     public Rigidbody2D rb;
     public BoxCollider2D collider;
@@ -35,6 +36,7 @@ public class DogoAI : MonoBehaviour
         target = GameObject.Find("Tower").transform;
         yHeight = collider.size.y * ((Mathf.Abs(collider.offset.y) + 1));
         lookTransform = new GameObject().transform;
+        enemy.lookVector = lookTransform;
     }
     void FixedUpdate()
     {

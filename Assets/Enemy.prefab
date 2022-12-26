@@ -51,6 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d18091260c1278d41b89e623df8717f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreText: {fileID: 7645980092405007957, guid: 03fc6fdac3269f04da04e632f43ad51b, type: 3}
+  score: 1000
   player: {fileID: 0}
   health: 100
   lookVector: {fileID: 0}

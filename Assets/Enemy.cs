@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public GameObject scoreText;
+    public float score;
     public GameObject player;
     public float health = 100;
 
@@ -23,8 +25,13 @@ public class Enemy : MonoBehaviour
     }
     public void Death()
     {
+        GameObject _score = Instantiate(scoreText, transform.position, Quaternion.Euler(0, 0, 0));
+        _score.transform.Find("White Text").GetComponent<TextMesh>().text = score.ToString();
+        _score.transform.Find("Black Text").GetComponent<TextMesh>().text = score.ToString();
+
         Destroy(gameObject);
         Destroy(lookVector);
+        Destroy(_score, 2f);
     }
     private void OnTriggerEnter2D(Collider2D col)
     {

@@ -1,0 +1,4 @@
+Give something that will help the player for completing each contract
+	- make the player more powerful (more health, new weapons)
+	- coins to buy stuff
+	- new fun things to do

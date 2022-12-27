@@ -1,0 +1,7 @@
+Dogo needs to be not too hard to kill but not super easy
+
+When the enemy dies it needs to add something of value you can see
+so you feel compelled to kill more enemies
+
+	droping health, score, objects that count towards a goal or upgrades
+	add score for killing enemies

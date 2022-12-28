@@ -24,6 +24,10 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 rbvelo;
     public Vector2 animVector;
     public Vector2 mousePos;
+    private void Start()
+    {
+        
+    }
 
     void Update(){
         move = Input.GetAxis("Horizontal");

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public GameObject scoreText;
-    public float score;
+    public int score;
     public GameObject player;
     public float health = 100;
 
@@ -29,6 +29,7 @@ public class Enemy : MonoBehaviour
         _score.transform.Find("White Text").GetComponent<TextMesh>().text = score.ToString();
         _score.transform.Find("Black Text").GetComponent<TextMesh>().text = score.ToString();
 
+        GameObject.Find("Game Manager").GetComponent<ScoreManager>().AddScore(score);
         Destroy(gameObject);
         Destroy(lookVector);
         Destroy(_score, 2f);

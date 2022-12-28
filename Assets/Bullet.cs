@@ -8,21 +8,11 @@ public class Bullet : MonoBehaviour
     public Rigidbody2D rb;
     public GameObject effect;
     public float speed;
-
-    private float timer;
  
     void Start()
     {
         rb.velocity = transform.right * speed;
-    }
-    void Update()
-    {
-        timer += Time.deltaTime;
-
-        if(timer >= 10)
-        {
-            Destroy(gameObject);
-        }
+        Destroy(gameObject, 10f);
     }
     void OnTriggerEnter2D(Collider2D col)
     {

@@ -92,12 +92,10 @@ public class DogoAI : MonoBehaviour
                 if (movementVector == 1)
                 {
                     movement = sp.transform.right * speedUp;
-                    Debug.Log("moving right: " + movement);
                 }
                 else if (movementVector == -1)
                 {
                     movement = -sp.transform.right * speedUp;
-                    Debug.Log("moving left: " + movement);
                 }
             }
             else

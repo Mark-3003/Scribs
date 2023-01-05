@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     public float airSpeed;
     public float sprintMultiplier = 1;
+    public float accuracy;
     public float jumpHeight;
     public LayerMask ground;
     public Transform feet;
@@ -127,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if(type == 2)
         {
-            Vector2 lookDir = mousePos - rb.position;
+            Vector2 lookDir = mousePos + new Vector2(Random.Range(0f, accuracy), Random.Range(0f, accuracy)) - rb.position;
             float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
             hitPivot.rotation = Quaternion.Euler(0, 0, angle);
         }

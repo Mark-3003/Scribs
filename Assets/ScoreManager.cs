@@ -10,11 +10,12 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int _add)
     {
-        score += _add;
+        Debug.Log("ADDED SCORE " + _add);
+        score = score + _add;
         UpdateText();
     }
     void UpdateText()
     {
-        text.text = score.ToString();
+        text.text = "SCORE: " + score.ToString();
     }
 }

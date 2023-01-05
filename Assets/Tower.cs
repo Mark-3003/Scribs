@@ -10,6 +10,7 @@ public class Tower : MonoBehaviour
     public TextMesh text;
     public TMP_Text waveSliderText;
     public GameObject UI;
+    public Transform mask;
     public float health;
     public float chargeTimer;
     public float breakTimer;
@@ -27,8 +28,10 @@ public class Tower : MonoBehaviour
     public Transform player;
     public float chargeTime;
     public float breakTime;
+    public float foreverTimer;
     private void Awake()
     {
+        mask.localPosition = Vector2.zero;
         waves = GetComponent<WaveSystem>();
         player = GameObject.Find("Player").transform;
     }
@@ -68,6 +71,7 @@ public class Tower : MonoBehaviour
             }
 
             chargeTime += Time.deltaTime;
+            foreverTimer += Time.deltaTime;
             if (chargeTime >= chargeTimer && !breaktime)
             {
                 chargeTime -= chargeTimer;
@@ -88,6 +92,7 @@ public class Tower : MonoBehaviour
                 breakTime += Time.deltaTime;
                 waves.SetSlider((breakTime / breakTimer) * 100);
             }
+            UpdateMask();
         }
     }
     void Activate()
@@ -120,5 +125,10 @@ public class Tower : MonoBehaviour
             timers.RemoveAt(enemies.IndexOf(col.GetComponent<Enemy>()));
             enemies.Remove(col.GetComponent<Enemy>());
         }
+    }
+    void UpdateMask()
+    {
+        float _yPos = Mathf.Lerp(mask.localPosition.y, 2, foreverTimer / (chargeTimer * 100));
+        mask.localPosition = new Vector2(0, _yPos);
     }
 }

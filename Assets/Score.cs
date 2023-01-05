@@ -12,7 +12,6 @@ public class Score : MonoBehaviour
     {
         Destroy(gameObject, 1 / speed);
         start = transform.position;
-        // ADD SCORE HERE
     }
     private void Update()
     {
